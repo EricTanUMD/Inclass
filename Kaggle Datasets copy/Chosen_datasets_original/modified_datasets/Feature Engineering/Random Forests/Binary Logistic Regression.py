@@ -29,12 +29,12 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # 7. Scale features (VERY important for Logistic Regression)
 scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
+X_train_scaled = scaler.fit_transform(X_train) # userful considering the data being used.
 X_test_scaled = scaler.transform(X_test)
 
-# 8. Build Logistic Regression Model
+# 8. Build Logistic Regression Model 
 log_reg = LogisticRegression(
-    random_state=42, 
+    random_state=42,         # interesting to se additional tunings for the Logisitic regression
     max_iter=1000,           # Allow enough iterations
     solver='lbfgs',          # Good for binary
     penalty='l2',            # Regularization
@@ -43,7 +43,7 @@ log_reg = LogisticRegression(
 
 # 9. Cross-Validation BEFORE final fitting
 print("\n🔵 Performing 5-Fold Cross-Validation...")
-cv_scores = cross_val_score(log_reg, X_train_scaled, y_train, cv=5, scoring='accuracy')
+cv_scores = cross_val_score(log_reg, X_train_scaled, y_train, cv=5, scoring='accuracy') 
 
 print("Cross-Validation Accuracy Scores:", cv_scores)
 print(f"Mean Cross-Validation Accuracy: {cv_scores.mean():.4f}")
@@ -60,7 +60,7 @@ print("\n🔵 Classification Report:")
 print(classification_report(y_test, y_pred))
 
 # 13. Evaluation: Confusion Matrix
-print("\n🔵 Confusion Matrix:")
+print("\n🔵 Confusion Matrix:") # Good choice to do a classification report along with a confusion matrix
 cm = confusion_matrix(y_test, y_pred)
 sns.heatmap(cm, annot=True, fmt='d', cmap='Purples', 
             xticklabels=["No Dropout", "Dropout"], 
@@ -91,7 +91,7 @@ coefficients = pd.DataFrame({
     "Coefficient": log_reg.coef_[0]
 }).sort_values(by="Coefficient", ascending=False)
 
-print("\n🔵 Feature Coefficients (Importance):")
+print("\n🔵 Feature Coefficients (Importance):") # important for iterative design for the model. Best to remove features with little to no signal
 print(coefficients)
 
 plt.figure(figsize=(12,8))
